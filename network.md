@@ -1,3 +1,12 @@
+## Hosts File
+Here are some hosts files to be used. Merge and de-duplicate them.
+Only get the malvertising, exploit and hijacking lists from hpHosts’s.
++ https://hosts-file.net/?s=Download
++ http://someonewhocares.org/hosts/zero/
++ http://www.malwaredomainlist.com/
++ http://winhelp2002.mvps.org/hosts.htm
+
+## Firewall
 ```shell
 sudo ufw default deny incoming
 sudo ufw default deny outgoing
