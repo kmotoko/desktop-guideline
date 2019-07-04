@@ -27,15 +27,13 @@ firejail --list
 ## Clean-up
 Remove the software that you do not want to be sandboxed from `/usr/local/bin` and `~/.local/share/applications/`.
 Must-be-sandboxed softwares:
-+ firefox, firefox-esr
-+ chromium
-+ libreoffice
-+ evolution
-+ eog (gnome photo viewer)
-+ thunderbird
-+ evince, qpdf and other pdf readers
-+ vlc, totem and other video players
-+ transmission and other p2p apps
-+ inkscape
-+ gimp
++ Web Browsers: firefox, firefox-esr, chromium
++ Office: libreoffice suite
++ Mail: evolution, thunderbird
++ Image: eog (gnome photo viewer), inkscape, gimp
++ Video: vlc, totem
++ PDF readers: evince, qpdf
++ p2p: transmission, qbittorrent
 + Gnome-specific stuff: documents, photos, music, video but not the keyring and certificate stuff
+
+In general, if a software has internet access or gets input from internet-downloaded files, sandbox it.
