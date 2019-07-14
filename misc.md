@@ -16,11 +16,14 @@ sudo systemctl mask hibernate.target hybrid-sleep.target
 ```
 + Reduce swappiness. Should be included in the `sysctl` config.
 
-+ Set I/O scheduler. Check the current scheduler by (**replace sdX**):
++ Set I/O scheduler for SSD. This should not be necessary for if the kernel is new enough (Kernel >= 4.19, Debian >= 10).
+
+Check the current scheduler by (**replace sdX**):
 `cat /sys/block/sdX/queue/scheduler`.
 The scheduler currently in use will be surrounded by [ ] brackets.
+The others are available schedulers.
 
-If it is not `deadline`, first check if the kernel knows about SSD, run:
+If it is not `deadline` or `mq-deadline`, first check if the kernel knows about SSD, run:
 ```shell
 for f in /sys/block/sd?/queue/rotational; do printf "$f is "; cat $f; done
 ```
@@ -30,13 +33,7 @@ It should output something like:
 /sys/block/sdb/queue/rotational is 1
 /sys/block/sdc/queue/rotational is 0   <=== Only this is SSD!
 ```
-
-Set the scheduler to `deadline` (**Change sd[a-z]**):
-```
-# set deadline scheduler for non-rotating disks
-# you might wanna change sd[a-z] accordingly
-ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="deadline"
-```
+**Note:** For NVMe's, the scheduler should be `none`.
 
 + TRIM/Discard: If the SSD is high quality and you have enough over-provisioning space, prefer not enabling it especially if you have LUKS volume.
 
@@ -59,7 +56,7 @@ CriticalPowerAction=PowerOff
 ```
 > If you read the UPower.conf file, upower used to (in v 0.99.1) only suggest using percentages in order to work around broken firmware. The default was UsePercentageForPolicy=false, which used the battery's time estimate. That makes some sense since, as a battery gets older, it lasts shorter for any given percentage. A fixed percentage that worked previously might at some point no longer allow the laptop enough time to hibernate properly. However, it looks like upower now (v 0.99.4) is defaulting to percentages and has a cryptic message about the reasoning.
 
-+ By default, audio power saving is turned off by most drivers. It can be enabled by setting the `power_save` parameter; a time (in seconds) to go into idle mode. Check the producer and driver. If it is `intel hda`, then to idle the audio card after one second, create the following file for Intel soundcards: `/etc/modprobe.d/audio_powersave.conf` and place this line `options snd_hda_intel power_save=1`
++ By default, audio power saving is turned off by most drivers. It can be enabled by setting the `power_save` parameter; a time (in seconds) to go into idle mode. Check the producer and driver by `lspci -k`. If it is `intel hda`, then to idle the audio card after one second, create the following file for Intel soundcards: `/etc/modprobe.d/audio_powersave.conf` and place this line `options snd_hda_intel power_save=1`
 
 ## TexStudio
 By default use `biber` for bibliography tool. Default in TexStudio is `bibtex`, change it in "Build" section of "Options". If necessary, change the sequence of commands in build and view because you need the following sequence: `compile-bibliography-compile`. In build options, there is `update bibliography before compiling`, if selected you don’t need to change the sequence.
