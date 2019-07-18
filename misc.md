@@ -11,8 +11,8 @@ or change with other possible names mentioned above, instead of "Execute Disable
 + Set BIOS/UEFI to AHCI mode for SSD.
 + Disable Hibernation
 ```
-sudo systemctl disable hibernate.target hybrid-sleep.target
-sudo systemctl mask hibernate.target hybrid-sleep.target
+sudo systemctl disable hibernate.target hybrid-sleep.target suspend-then-hibernate.target
+sudo systemctl mask hibernate.target hybrid-sleep.target suspend-then-hibernate.target
 ```
 + Reduce swappiness. Should be included in the `sysctl` config.
 
@@ -36,14 +36,6 @@ It should output something like:
 **Note:** For NVMe's, the scheduler should be `none`.
 
 + TRIM/Discard: If the SSD is high quality and you have enough over-provisioning space, prefer not enabling it especially if you have LUKS volume.
-
-## Filesystem Check
-+ To force `fsck` to check the filesystem during boot, use `tune2fs`.
-Check the current values:
-`sudo tune2fs -l /dev/sdX`
-+ Then reconfigure the maximum mount count. If the mount count is 1, it will check during every boot. Do:
-`sudo tune2fs -c 2 /dev/sdX`
-+ Check `/etc/fstab` parameters. The `<pass>` value should be non-zero (1 or 2). 1 is checked first then it checks 2.
 
 ## Power/Battery
 + In Debian 9 and Ubuntu 16.04, several power settings are now handled by `UPower` instead of `gsettings`. Edit the values in `/etc/UPower/UPower.conf`:
