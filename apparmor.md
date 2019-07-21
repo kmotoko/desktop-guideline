@@ -10,4 +10,6 @@ sudo reboot
 + Check by: `sudo aa-status`.
 
 **Important:** Even if using Debian >= 10, install the profiles and utils:
-`sudo apt-get install apparmor-profiles apparmor-profiles-extra apparmor-utils`
+`sudo apt-get install apparmor-profiles-extra apparmor-utils`
+
+There is also `apparmor-profiles` package, but all the profiles are experimental and in complain mode by default.
