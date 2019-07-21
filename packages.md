@@ -5,7 +5,7 @@ sudo apt-get install firmware-linux-free firmware-misc-nonfree intel-microcode l
 
 ## Security
 ```shell
-sudo apt-get install openvpn network-manager-openvpn openconnect clamav chkrootkit apparmor apparmor-profiles apparmor-profiles-extra apparmor-utils firejail firetools ldnsutils dnscrypt-proxy nautilus-wipe wipe usbguard usbguard-applet-qt keepassxc
+sudo apt-get install openvpn network-manager-openvpn openconnect clamav chkrootkit apparmor apparmor-profiles-extra apparmor-utils firejail firetools ldnsutils dnscrypt-proxy nautilus-wipe wipe usbguard usbguard-applet-qt keepassxc logwatch
 ```
 If on GNOME, also:
 ```shell
@@ -26,12 +26,17 @@ sudo apt-get install texlive-base texlive-bibtex-extra texlive-fonts-recommended
 
 ## Media/Misc/Daily
 ```shell
-sudo apt-get install vlc gstreamer1.0-vaapi gstreamer1.0-libav gstreamer1.0-plugins-ugly gstreamer1.0-plugins-good ffmpeg unrar-free zip unzip qpdfview impressive pdf-presenter-console inkscape gimp chromium dconf-editor
+sudo apt-get install vlc gstreamer1.0-vaapi gstreamer1.0-libav gstreamer1.0-plugins-ugly gstreamer1.0-plugins-good ffmpeg unrar-free zip unzip qpdfview impressive pdf-presenter-console inkscape gimp chromium chromium-sandbox dconf-editor
 ```
 
 ## GNOME Shell
 ```shell
-sudo apt-get install gnome-shell-extension-disconnect-wifi gnome-shell-extension-suspend-button
+sudo apt-get install gnome-shell-extension-disconnect-wifi gnome-shell-extension-suspend-button numix-gtk-theme
+```
+
+## Localization
+```shell
+sudo apt-get install hunspell-en-gb hyphen-en-gb firefox-esr-l10n-en-gb libreoffice-l10n-en-gb chromium-l10n
 ```
 
 ## Package Managers/Build Tools
