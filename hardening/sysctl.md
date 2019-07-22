@@ -41,7 +41,7 @@ kernel.yama.ptrace_scope = 1
 ###
 
 # Do less swapping
-vm.swappiness = 5
+vm.swappiness = 3
 
 # Keep at least 128MB of free RAM space available
 vm.min_free_kbytes = 131072
@@ -86,24 +86,6 @@ net.ipv4.conf.default.secure_redirects = 0
 net.ipv6.conf.all.accept_redirects = 0
 net.ipv6.conf.default.accept_redirects = 0
 
-# Disable acceptance of IPv6 router solicitations messages
-net.ipv6.conf.default.router_solicitations = 0
-
-# Disable Accept Router Preference from router advertisement
-net.ipv6.conf.default.accept_ra_rtr_pref = 0
-
-# Disable learning Prefix Information from router advertisement
-net.ipv6.conf.default.accept_ra_pinfo = 0
-
-# Disable learning Hop limit from router advertisement
-net.ipv6.conf.default.accept_ra_defrtr = 0
-
-# Disable neighbor solicitations to send out per address
-net.ipv6.conf.default.dad_transmits = 0
-
-# Assign one global unicast IPv6 addresses to each interface
-net.ipv6.conf.default.max_addresses = 1
-
 # Don't relay bootp
 net.ipv4.conf.all.bootp_relay = 0
 
@@ -139,14 +121,6 @@ net.ipv4.icmp_ratemask = 88089
 # Enable a fix for RFC1337 - time-wait assassination hazards in TCP
 net.ipv4.tcp_rfc1337 = 1
 
-# Do not auto-configure IPv6
-net.ipv6.conf.all.autoconf=0
-net.ipv6.conf.all.accept_ra=0
-net.ipv6.conf.default.autoconf=0
-net.ipv6.conf.default.accept_ra=0
-net.ipv6.conf.eth0.autoconf=0
-net.ipv6.conf.eth0.accept_ra=0
-
 ###
 ### TUNING NETWORK PERFORMANCE ###
 ###
@@ -156,10 +130,6 @@ net.ipv4.ipfrag_low_thresh = 196608
 net.ipv6.ip6frag_low_thresh = 196608
 net.ipv4.ipfrag_high_thresh = 262144
 net.ipv6.ip6frag_high_thresh = 262144
-
-# How many times to retry killing an alive TCP connection
-net.ipv4.tcp_retries2 = 15
-net.ipv4.tcp_retries1 = 3
 
 # This will ensure that immediately subsequent connections use the new values
 # ALWAYS COMES LAST
