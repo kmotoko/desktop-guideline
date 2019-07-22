@@ -1,3 +1,7 @@
+## GTK File chooser
+Default size is too big.
+Go to `dconf` and change `org.gtk.settings.file-chooser.window-size` to (890, 550).
+
 ## GNOME Greeting Screen
 + From GNOME docs:
 > When choosing an appropriate picture for the logo to your login screen, consider the following picture requirements:
