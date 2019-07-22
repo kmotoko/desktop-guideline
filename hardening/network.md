@@ -31,8 +31,7 @@ sudo ufw allow out to 54.93.169.110 port 1:65535 proto udp comment 'wire-desktop
 sudo ufw allow out to 116.203.188.16 port 1:65535 proto udp comment 'wire-desktop'
 sudo ufw allow out to 116.203.137.142 port 1:65535 proto udp comment 'wire-desktop'
 sudo ufw allow out to 116.203.131.31 port 1:65535 proto udp comment 'wire-desktop'
-sudo ufw allow out to 77.66.84.233 port 443 comment 'dnscrypt.eu-dk'
-sudo ufw allow out to 176.56.237.171 port 443 comment 'dnscrypt.eu-nl'
+sudo ufw allow out 443/udp comment "DNSCrypt-proxy, non-doh, over dnscrypt"
 sudo ufw allow out to 176.103.130.130 port 5443 comment 'adguard-dns-ns1, for DNScrypt'
 sudo ufw allow out 81/tcp comment 'Captive portals'
 sudo ufw allow out 30303 comment 'Ethereum clients, i.e geth and wallet, listening(tcp) and node discovery(udp) port'
