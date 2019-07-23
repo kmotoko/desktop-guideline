@@ -21,6 +21,20 @@ sudo ln -s /usr/bin/firejail /usr/local/bin/atom
 cp /usr/share/applications/atom.desktop ~/.local/share/applications/
 ```
 Then edit `EXEC` line in `~/.local/share/applications/atom.desktop` and remove the absolute path.
+Also atom github integration requires a bit of tweaking. Not sure if all the following requires, try to restrict it in the future. Put the following into `/etc/firejail/atom.local`:
+
+```
+# GitHub integration requires
+noblacklist ${HOME}/.git-credential-cache
+noblacklist ${HOME}/.gitconfig
+noblacklist ${HOME}/.local/share/gitg
+noblacklist ${HOME}/.repo_.gitconfig.json
+noblacklist ${HOME}/.smartgit/*/passwords
+ignore noexec /tmp
+ignore private-cache
+ignore private-tmp
+ignore private-dev
+```
 
 ## Exceptions
 **Note:** In newer firejail versions (at least on firejail 0.9.58.2), `sudo firecfg` also runs the `--fix`.
