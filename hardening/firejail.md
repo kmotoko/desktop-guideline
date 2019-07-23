@@ -14,8 +14,16 @@ sudo firecfg
 It creates symbolic links in `/usr/local/bin` that point to `/usr/bin/firejail`, for all programs with default firejail profiles.
 In order for this to work, `/usr/local/bin` must be before `/usr/bin/` in your `PATH`.
 To manually do this: `sudo ln -s /usr/bin/firejail /usr/local/bin/<program name>`.
+
+**Important:** On `Debian 10` with `firejail 0.9.58.2`, `firecfg` does not detect `atom` editor for some reason. Thus do it manually:
+```shell
+sudo ln -s /usr/bin/firejail /usr/local/bin/atom
+cp /usr/share/applications/atom.desktop ~/.local/share/applications/
+```
+Then edit `EXEC` line in `~/.local/share/applications/atom.desktop` and remove the absolute path.
+
 ## Exceptions
-**Note:** In newer firejail versions, `sudo firecfg` also runs the `--fix`.
+**Note:** In newer firejail versions (at least on firejail 0.9.58.2), `sudo firecfg` also runs the `--fix`.
 Some GUI application launchers (.desktop files) are coded using absolute paths to an executable, which circumvents firejail's symlink method of ensuring that it is being used. The `firecfg` tool includes an option to over-ride this on a per-user basis by copying the .desktop files from `/usr/share/applications/*.desktop` to `~/.local/share/applications/` and replacing the absolute paths with simple file names.
 ```shell
 firecfg --fix
