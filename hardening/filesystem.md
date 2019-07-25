@@ -14,7 +14,17 @@ There are important partition mount options:
 
 That was it for the basic understanding. Now is the time for the actual config.
 
-+ `/etc/fstab` has the mount options. The should look like the following (disregard everything except the mount options and mount points):
++ Strict options for `/etc/fstab`: The should look like the following (disregard everything except the mount options and mount points).
+```
+/dev/sdaX   /var  ext4    defaults,nodev 0      2
+/dev/sdaY   /var/tmp  ext4    defaults,nodev,nosuid    0       2
+/dev/sdaZ  /var/log ext4    defaults,nodev,nosuid,noexec    0       2
+/dev/sdaB   /tmp  ext4    defaults,nodev,nosuid    0       2
+/dev/sdaD  /home  ext4    defaults,nosuid,nodev                0       2
+```
+For `/`, `/boot`, `/boot/efi` (or `/efi`), go with the defaults.
+
++ More strict options for `/etc/fstab`: The should look like the following (disregard everything except the mount options and mount points). **Note:** This might cause various issues with GUI programs. Instead of doing this config, you can noexec specific programs with firejail.
 ```
 /dev/sdaX   /var  ext4    defaults,nodev 0      2
 /dev/sdaY   /var/tmp  ext4    defaults,nodev,nosuid,noexec    0       2
@@ -24,19 +34,18 @@ That was it for the basic understanding. Now is the time for the actual config.
 ```
 For `/`, `/boot`, `/boot/efi` (or `/efi`), go with the defaults.
 
+As said earlier, `dpkg` needs `/tmp` to be executable. A workaround would be to mount `/tmp` with `exec` before `dpkg` and then remount with `noexec` after it is done. Create `/etc/apt/apt.conf.d/99tmpfix` and place:
+```
+DPkg::Pre-Invoke{"mount -o remount,exec /tmp";};
+DPkg::Post-Invoke {"mount -o remount /tmp";};
+```
+If you want to manually run `update-initramfs -u`, again you need to remount `/tmp` with `exec` as shown before.
+
 + Secure shared memory. Once you have determined the shm dir (`/run/shm` or `/dev/shm`) add the following to the `/etc/fstab` (replace the virtual mount point with the appropriate path):
 ```
 none /run/shm tmpfs rw,noexec,nosuid,nodev 0 0
 ```
 You could also mount it read-only by `none /run/shm tmpfs defaults,ro 0 0`, but this might cause issues with several software, including Chromium. Also, as the `man page` says above, you could also use `tmpfs` instead of `none`.
-
-+ As said earlier, `dpkg` needs `/tmp` to be executable. A workaround would be to mount `/tmp` with `exec` before `dpkg` and then remount with `noexec` after it is done. Create `/etc/apt/apt.conf.d/99tmpfix` and place:
-```
-DPkg::Pre-Invoke{"mount -o remount,exec /tmp";};
-DPkg::Post-Invoke {"mount -o remount /tmp";};
-```
-
-+ If you want to manually run `update-initramfs -u`, again you need to remount `/tmp` with `exec` as shown before.
 
 + Reboot and check mount flags with: `mount`
 
