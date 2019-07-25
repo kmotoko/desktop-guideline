@@ -4,6 +4,7 @@ A Debian/Ubuntu desktop/notebook guide focusing on security while maintaining us
 + Hardening steps in order:
   + `hardening/bios.md`
   + `hardening/network.md`
+  + `hardening/dnscrypt-proxy.md`
   + `hardening/services.md`
   + `hardening/apt.md`
   + `hardening/apparmor.md`
