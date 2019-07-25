@@ -15,7 +15,7 @@ It creates symbolic links in `/usr/local/bin` that point to `/usr/bin/firejail`,
 In order for this to work, `/usr/local/bin` must be before `/usr/bin/` in your `PATH`.
 To manually do this: `sudo ln -s /usr/bin/firejail /usr/local/bin/<program name>`.
 
-**Important:** On `Debian 10` with `firejail 0.9.58.2`, `firecfg` does not detect `atom` editor for some reason. Thus do it manually:
+**Important:** On `Debian 10` with `firejail 0.9.58.2`, `firecfg` does not detect `atom` editor. Thus do it manually:
 ```shell
 sudo ln -s /usr/bin/firejail /usr/local/bin/atom
 cp /usr/share/applications/atom.desktop ~/.local/share/applications/
@@ -25,15 +25,8 @@ Also atom github integration requires a bit of tweaking. Not sure if all the fol
 
 ```
 # GitHub integration requires
-noblacklist ${HOME}/.git-credential-cache
-noblacklist ${HOME}/.gitconfig
-noblacklist ${HOME}/.local/share/gitg
-noblacklist ${HOME}/.repo_.gitconfig.json
-noblacklist ${HOME}/.smartgit/*/passwords
+ignore nodbus
 ignore noexec /tmp
-ignore private-cache
-ignore private-tmp
-ignore private-dev
 ```
 
 ## Exceptions
