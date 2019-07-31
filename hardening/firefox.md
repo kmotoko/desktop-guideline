@@ -36,7 +36,6 @@ user_pref("datareporting.healthreport.service.enabled", false);
 user_pref("datareporting.healthreport.uploadEnabled", false);
 user_pref("datareporting.policy.dataSubmissionEnabled", false);
 user_pref("dom.battery.enabled", false);
-user_pref("dom.event.clipboardevents.enabled", false);
 user_pref("dom.webaudio.enabled", false);
 user_pref("experiments.activeExperiment", false);
 user_pref("experiments.enabled", false);
