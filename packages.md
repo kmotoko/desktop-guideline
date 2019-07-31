@@ -1,8 +1,22 @@
 ## Firmware/Hardware
 ```shell
-sudo apt-get install firmware-linux-free firmware-misc-nonfree intel-microcode laptop-mode-tools lshw pciutils hardinfo psensor
+sudo apt-get install firmware-linux-free firmware-misc-nonfree laptop-mode-tools lshw pciutils hardinfo psensor
 ```
 
+Microcode for Intel processors:
+```shell
+sudo apt-get install intel-microcode
+```
+
+VAAPI driver for i965 chipsets:
+```shell
+sudo apt-get install mesa-va-drivers i965-va-driver intel-media-va-driver vainfo
+```
+
+Vulkan support:
+```shell
+sudo apt-get install vulkan-tools mesa-vulkan-drivers
+```
 ## Security
 ```shell
 sudo apt-get install openvpn network-manager-openvpn openconnect clamav chkrootkit apparmor apparmor-profiles-extra apparmor-utils firejail firetools ldnsutils dnscrypt-proxy nautilus-wipe wipe usbguard usbguard-applet-qt keepassxc logwatch
