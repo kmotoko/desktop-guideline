@@ -13,6 +13,7 @@ A Debian/Ubuntu desktop/notebook guide focusing on security while maintaining us
   + `hardening/filesystem.md`
   + `hardening/usbguard.md`
   + `hardening/firefox.md`
+  + `hardening/logrotate.md`
   + `hardening/logwatch.md`
   + `hardening/anti-malware.md`
 + Follow `misc.md` for performance and other optimizations.
