@@ -22,12 +22,22 @@ sudo ln -s /usr/bin/firejail /usr/local/bin/atom
 cp /usr/share/applications/atom.desktop ~/.local/share/applications/
 ```
 Then edit `EXEC` line in `~/.local/share/applications/atom.desktop` and remove the absolute path.
-Also atom github integration requires a bit of tweaking. Not sure if all the following requires, try to restrict it in the future. Put the following into `/etc/firejail/atom.local`:
+Also atom git/github integration requires a bit of tweaking. Also, the trash folder is masked by default, unmask it. Put the following into `/etc/firejail/atom.local`:
 
 ```
-# GitHub integration requires
+# Bring the trash func back
+noblacklist ${HOME}/.local/share/Trash
+
+# Git/GitHub integration requires
+noblacklist ${HOME}/.config/git
+noblacklist ${HOME}/.gitconfig
+noblacklist ${HOME}/.git-credentials
 ignore nodbus
 ignore noexec /tmp
+
+# Other fixes
+noblacklist ${HOME}/.pythonrc.py
+
 ```
 
 + Electrum Bitcoin Wallet (Appimage): Firejail has an electrum profile. However, since we used the appimage for the setup, it needs to be configured. Note that desktop file does not recognize `~` or `$HOME` for the path, therefore replace the `<USERNAME>` or the whole path if not using the home directory. Add the `electrum.desktop` to `~/.local/share/applications`:
@@ -40,6 +50,14 @@ GenericName=Bitcoin Wallet
 Exec=firejail --appimage --profile=/etc/firejail/electrum.profile /home/<USERNAME>/Appimages/electrum.AppImage
 Type=Application
 StartupNotify=true
+
+```
+
++ Deny Access to Sensitive Data: By adding the following to `/etc/firejail/globals.local`, all sandboxed applications can be prevented from accessing the directory with sensitive data (replace the path):
+
+```
+blacklist ${HOME}/path/to/sensitive
+nowhitelist ${HOME}/path/to/sensitive
 
 ```
 
