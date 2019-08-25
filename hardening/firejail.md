@@ -72,4 +72,69 @@ After everything, verify if the programs are using firejail by:
 firejail --list
 ```
 ## Clean-up
-Remove the software that you do not want to be sandboxed from `/usr/local/bin`. You might want to exclude `keepassxc` as it is sensitive and preventing data corruption is important.
+Remove the software that you do not want to be sandboxed from `/usr/local/bin`. You might want to exclude `keepassxc` as it is sensitive and preventing the data corruption is important.
+
+## DPKG Hook
+Add a DPKG hook so that newly installed software are automatically sandboxed.
+
++ Add the following to `/etc/apt/apt.conf.d/85firecfg`:
+```
+# Run firecfg after apt-get install/upgrade/remove
+DPkg::Post-Invoke {"/usr/local/sbin/firejail_autorun.sh";};
+```
+
+Note: Pay attention if there is a hook which runs a HIDS (e.g. rkhunter DPKG hook, which is `90rkhunter`). It is better to run firecfg before HIDS is run.
+
++ Add the following to `/usr/local/sbin/firejail_autorun.sh`:
+```shell
+#!/bin/sh
+# Used after apt-get upgrade/install/remove
+# In order to update the sandboxed software list
+
+# Exit script as soon as a command fails.
+set -o errexit
+
+# Executes cleanup function at script exit.
+trap failure EXIT
+
+failure() {
+    echo "Firejail autorun script failed" | mail -s "Firejail DPKG Post-Invoke FAILED" root@localhost
+}
+
+# Variables
+TIMESTAMP=$(date '+%Y%m%d%H%M%S')
+OUTPUT="/tmp/firejail_autorun_$TIMESTAMP"
+
+# Sandbox newly installed apps
+if [ -x /usr/bin/firecfg ]
+then
+    firecfg > $OUTPUT
+fi
+
+# Blacklist the following software
+if [ -L /usr/local/bin/keepassxc ]
+then
+    echo >> $OUTPUT
+    rm -v /usr/local/bin/keepassxc >> $OUTPUT
+fi
+
+if [ -L /usr/local/bin/keepassx ]
+then
+    echo >> $OUTPUT
+    rm -v /usr/local/bin/keepassx >> $OUTPUT
+fi
+
+if [ -L /usr/local/bin/keepass ]
+then
+    echo >> $OUTPUT
+    rm -v /usr/local/bin/keepass >> $OUTPUT
+fi
+
+if [ -r $OUTPUT ]
+then
+    cat $OUTPUT | mail -s "Firejail DPKG Post-Invoke" root@localhost
+fi
+
+```
+
++ Make it executable `sudo chmod 754 /usr/local/sbin/firejail_autorun.sh`
