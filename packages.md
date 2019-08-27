@@ -55,7 +55,7 @@ sudo apt-get install hunspell-en-gb hyphen-en-gb firefox-esr-l10n-en-gb libreoff
 
 ## Package Managers/Build Tools
 ```shell
-sudo apt-get install build-essential gcc g++ make automake libtool aptitude
+sudo apt-get install build-essential gcc g++ make automake libtool aptitude snapd
 ```
 
 ## Programming/Dev Tools
@@ -69,7 +69,7 @@ sudo apt-get install adb fastboot jmtpfs mtp-tools libimobiledevice-utils idevic
 ```
 
 ## Cryptocurrency
-Probably not in repos: `Electrum Bitcoin Wallet` and `MyCrypto Ethereum Wallet`. Get them from their official websites.
+Probably not in repos: `Electrum Bitcoin Wallet` and `MyCrypto Ethereum Wallet`. Get them from their official websites. If getting the appimages, place them under `/usr/local/bin/`.
 
 ## Atom
 Get it from the official atom debian repos.
