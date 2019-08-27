@@ -47,11 +47,13 @@ noblacklist ${HOME}/.pythonrc.py
 Name=Electrum
 Comment=Electrum Bitcoin Wallet.
 GenericName=Bitcoin Wallet
-Exec=firejail --appimage --profile=/etc/firejail/electrum.profile /home/<USERNAME>/Appimages/electrum.AppImage
+Exec=firejail --appimage --profile=/etc/firejail/electrum.profile /usr/local/bin/electrum.AppImage
 Type=Application
 StartupNotify=true
 
 ```
+
+Note that the path is the absolute path, but used with firejail command. Also, it is important to keep Appimages outside the HOME dir, to prevent unintended/malicious changes. The best location for executables installed outside the package manager is `/usr/local/bin/` for all users, and `/usr/local/sbin/` for admin-only use.
 
 + Deny Access to Sensitive Data: By adding the following to `/etc/firejail/globals.local`, all sandboxed applications can be prevented from accessing the directory with sensitive data (replace the path):
 
@@ -71,6 +73,7 @@ After everything, verify if the programs are using firejail by:
 ```shell
 firejail --list
 ```
+
 ## Clean-up
 Remove the software that you do not want to be sandboxed from `/usr/local/bin`. You might want to exclude `keepassxc` as it is sensitive and preventing the data corruption is important.
 
@@ -95,15 +98,19 @@ Note: Pay attention if there is a hook which runs a HIDS (e.g. rkhunter DPKG hoo
 set -o errexit
 
 # Executes cleanup function at script exit.
-trap failure EXIT
-
-failure() {
-    echo "Firejail autorun script failed" | mail -s "Firejail DPKG Post-Invoke FAILED" root@localhost
-}
+trap cleanup EXIT
 
 # Variables
 TIMESTAMP=$(date '+%Y%m%d%H%M%S')
 OUTPUT="/tmp/firejail_autorun_$TIMESTAMP"
+
+# Cleanup fnc
+cleanup() {
+    if [ -w $OUTPUT ]
+    then
+        rm -v $OUTPUT
+    fi
+}
 
 # Sandbox newly installed apps
 if [ -x /usr/bin/firecfg ]
@@ -128,6 +135,14 @@ if [ -L /usr/local/bin/keepass ]
 then
     echo >> $OUTPUT
     rm -v /usr/local/bin/keepass >> $OUTPUT
+fi
+
+# Atom Editor is disabled in firecfg v0.9.58.2 @ Debian 10
+# Manually make a symlink
+if [ ! -L /usr/local/bin/atom ]
+then
+    echo >> $OUTPUT
+    ln -sv /usr/bin/firejail /usr/local/bin/atom >> $OUTPUT
 fi
 
 if [ -r $OUTPUT ]
