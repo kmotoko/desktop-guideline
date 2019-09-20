@@ -55,6 +55,33 @@ StartupNotify=true
 
 Note that the path is the absolute path, but used with firejail command. Also, it is important to keep Appimages outside the HOME dir, to prevent unintended/malicious changes. The best location for executables installed outside the package manager is `/usr/local/bin/` for all users, and `/usr/local/sbin/` for admin-only use.
 
++ Inkscape: It needs the Python interpreters to work properly. they are disabled at least in 0.9.58. Add the following to `/etc/firejail/inkscape.local`:
+
+```
+# Enable Python interpreters for Inkscape
+
+# Python 2
+noblacklist ${PATH}/python2*
+noblacklist /usr/include/python2*
+noblacklist /usr/lib/python2*
+noblacklist /usr/local/lib/python2*
+noblacklist /usr/share/python2*
+
+# Python 3
+noblacklist ${PATH}/python3*
+noblacklist /usr/include/python3*
+noblacklist /usr/lib/python3*
+noblacklist /usr/local/lib/python3*
+noblacklist /usr/share/python3*
+
+# Exporting GIMP .xcf requires:
+noblacklist ${HOME}/.config/GIMP
+noblacklist ${HOME}/.gimp*
+read-only ${HOME}/.config/GIMP
+read-only ${HOME}/.gimp*
+
+```
+
 + Deny Access to Sensitive Data: By adding the following to `/etc/firejail/globals.local`, all sandboxed applications can be prevented from accessing the directory with sensitive data (replace the path):
 
 ```
