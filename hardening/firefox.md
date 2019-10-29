@@ -1,4 +1,5 @@
-Add-ons to be installed:
+## Firefox
++ Add-ons to be installed:
 ```
 NoScript
 uBlock Origin
@@ -8,7 +9,7 @@ Privacy Badger
 Firefox Multi-Account Containers
 ```
 
-Set a secure/private baseline for the user profile. In Linux, it should be located at `~/.mozilla/firefox/XXXXXXXX.your_profile_name/`. After backing up bookmarks, extension settings etc. empty the directory and copy the preferences below to `user.js`:
++ Set a secure/private baseline for the user profile. In Linux, it should be located at `~/.mozilla/firefox/XXXXXXXX.your_profile_name/`. After backing up bookmarks, extension settings etc. empty the directory and copy the preferences below to `user.js`:
 
 ```javascript
 user_pref("app.normandy.api_url", "");
@@ -65,6 +66,8 @@ user_pref("privacy.firstparty.isolate", true);
 user_pref("privacy.resistFingerprinting", true);
 user_pref("privacy.trackingprotection.enabled", true);
 user_pref("privacy.trackingprotection.pbmode.enabled", true);
+user_pref("privacy.trackingprotection.fingerprinting.enabled", true);
+user_pref("privacy.trackingprotection.cryptomining.enabled", true);
 user_pref("privacy.usercontext.about_newtab_segregation.enabled", true);
 user_pref("privacy.clearOnShutdown.cache", true);
 user_pref("privacy.clearOnShutdown.cookies", true);
