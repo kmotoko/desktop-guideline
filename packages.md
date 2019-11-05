@@ -40,7 +40,7 @@ sudo apt-get install texlive-base texlive-bibtex-extra texlive-fonts-recommended
 
 ## Media/Misc/Daily
 ```shell
-sudo apt-get install vlc gstreamer1.0-vaapi gstreamer1.0-libav gstreamer1.0-plugins-ugly gstreamer1.0-plugins-good ffmpeg unrar-free zip unzip qpdfview impressive pdf-presenter-console inkscape gimp chromium chromium-sandbox dconf-editor
+sudo apt-get install vlc gstreamer1.0-vaapi gstreamer1.0-libav gstreamer1.0-plugins-ugly gstreamer1.0-plugins-good ffmpeg unrar-free zip unzip qpdfview impressive pdf-presenter-console inkscape gimp chromium chromium-sandbox dconf-editor telegram-desktop
 ```
 
 ## GNOME Shell
