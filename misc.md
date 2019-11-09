@@ -50,6 +50,14 @@ CriticalPowerAction=PowerOff
 
 + By default, audio power saving is turned off by most drivers. It can be enabled by setting the `power_save` parameter; a time (in seconds) to go into idle mode. Check the producer and driver by `lspci -k`. If it is `intel hda`, then to idle the audio card after one second, create the following file for Intel soundcards: `/etc/modprobe.d/audio_powersave.conf` and place this line `options snd_hda_intel power_save=1`
 
+## Atom Editor
+From the Atom Package Manager, install:
+```
+editorconfig
+language-solidity
+```
+**Important:** Editorconfig conflicts with the `whitespace` core plugin, therefore disable the latter.
+
 ## TexStudio
 By default use `biber` for bibliography tool. Default in TexStudio is `bibtex`, change it in "Build" section of "Options". If necessary, change the sequence of commands in build and view because you need the following sequence: `compile-bibliography-compile`. In build options, there is `update bibliography before compiling`, if selected you don’t need to change the sequence.
 
