@@ -26,7 +26,7 @@ If on GNOME, also:
 sudo apt-get install network-manager-openvpn-gnome network-manager-openconnect-gnome
 ```
 
-Get `Tor Browser` from the official website.
+To install `Tor Browser`, check the Debian website [https://wiki.debian.org/TorBrowser](https://wiki.debian.org/TorBrowser).
 
 ## Filesystem/Backup
 ```shell
@@ -35,8 +35,10 @@ sudo apt-get install exfat-utils exfat-fuse dosfstools parted rsync smartmontool
 
 ## Typesetting
 ```shell
-sudo apt-get install texlive-base texlive-bibtex-extra texlive-fonts-recommended texlive-fonts-extra lmodern fonts-lmodern texlive-science texlive-latex-base texlive-latex-extra texlive-latex-recommended texlive-lang-english texlive-lang-french texlive-lang-german texlive-lang-greek cm-super texstudio biber bibutils
+sudo apt-get install fonts-liberation fonts-liberation2 texlive-base texlive-bibtex-extra texlive-fonts-recommended texlive-fonts-extra lmodern fonts-lmodern texlive-science texlive-latex-base texlive-latex-extra texlive-latex-recommended texlive-lang-english texlive-lang-french texlive-lang-german texlive-lang-greek cm-super texstudio biber bibutils
 ```
+
+Note that `fonts-liberation` and `fonts-liberation2` package solve some of the font rendering problems in `chromium`.
 
 ## Media/Misc/Daily
 ```shell
@@ -60,7 +62,7 @@ sudo apt-get install build-essential gcc g++ make automake libtool aptitude snap
 
 ## Programming/Dev Tools
 ```shell
-sudo apt-get install python3 python3-pep8 python3-pep8-naming python3-flake8 git filezilla openssh-client smbclient cifs-utils whois traceroute dnsutils
+sudo apt-get install python3 python3-flake8 flake8 python3-pydocstyle pydocstyle python3-jedi git filezilla openssh-client smbclient cifs-utils whois traceroute dnsutils
 ```
 
 ## Phone Access
@@ -73,6 +75,12 @@ Probably not in repos: `Electrum Bitcoin Wallet` and `MyCrypto Ethereum Wallet`.
 
 ## Atom
 Get it from the official atom debian repos.
+Useful plugins from APM:
+```
+editorconfig autocomplete-python linter linter-flake8 linter-pydocstyle language-solidity
+```
+
+Increase the `linter` checking interval to a higher value, e.g. `1000ms`
 
 ## Virtualbox
 Get it from the official Virtualbox website.
