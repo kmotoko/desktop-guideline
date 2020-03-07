@@ -7,13 +7,14 @@ sudo apt-get update
 ```
 See https://wiki.debian.org/SourcesList for more info.
 
-+ Set a cron job in `/etc/cron.daily/99apt-clean` to automatically clean the downloaded package files.
++ Set a cron job in `/etc/cron.daily/99apt-clean` to automatically clean the downloaded package files. Do not forget to use **absolute paths**, also it is not `bash` but `sh` shell with very limited capability.
 ```shell
 #!/bin/sh
+set -e
 
 # Clean up locally downloaded package files
 # Prevent /var being filled up
-apt-get clean
-
+APTGET=/usr/bin/apt-get
+$APTGET clean
 ```
 Make it executable `sudo chmod +x /etc/cron.daily/99apt-clean`.
