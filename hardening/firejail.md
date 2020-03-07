@@ -55,6 +55,73 @@ StartupNotify=true
 
 Note that the path is the absolute path, but used with firejail command. Also, it is important to keep Appimages outside the HOME dir, to prevent unintended/malicious changes. The best location for executables installed outside the package manager is `/usr/local/bin/` for all users, and `/usr/local/sbin/` for admin-only use.
 
++ MyCrypto Ethereum Wallet (Appimage):
+Create the following profile in `/etc/firejail/MyCrypto.profile`:
+```
+# Firejail profile for MyCrypto Ethereum Wallet
+# Description: MyCrypto Ethereum Wallet
+# This file is overwritten after every install/update
+# Persistent local customizations
+include MyCrypto.local
+# Persistent global definitions
+include globals.local
+
+noblacklist ${HOME}/.cache/MyCrypto
+noblacklist ${HOME}/.config/MyCrypto
+noblacklist ${HOME}/.pki
+noblacklist ${HOME}/.local/share/pki
+
+include disable-common.inc
+include disable-devel.inc
+include disable-interpreters.inc
+include disable-programs.inc
+
+mkdir ${HOME}/.cache/MyCrypto
+mkdir ${HOME}/.config/MyCrypto
+mkdir ${HOME}/.pki
+mkdir ${HOME}/.local/share/pki
+whitelist ${HOME}/.cache/MyCrypto
+whitelist ${HOME}/.config/MyCrypto
+whitelist ${DOWNLOADS}
+whitelist ${HOME}/.pki
+whitelist ${HOME}/.local/share/pki
+include whitelist-common.inc
+include whitelist-var-common.inc
+
+caps.drop all
+ipc-namespace
+netfilter
+no3d
+#nodbus
+nodvd
+nogroups
+nonewprivs
+noroot
+nosound
+notv
+#?BROWSER_DISABLE_U2F: nou2f
+protocol unix,inet,inet6,netlink
+seccomp
+shell none
+
+disable-mnt
+private-dev
+
+noexec ${HOME}
+noexec /tmp
+```
+Then, similar to the Electrum Wallet, create the desktop entry `~/.local/share/applications/MyCrypto.desktop` with the following content:
+```
+[Desktop Entry]
+Name=MyCrypto Ethereum Wallet
+Comment=MyCrypto Ethereum Wallet.
+GenericName=Ethereum Wallet
+Exec=firejail --appimage --profile=/etc/firejail/MyCrypto.profile /usr/local/bin/MyCrypto.AppImage
+Type=Application
+StartupNotify=true
+```
+
+
 + Inkscape: It needs the Python interpreters to work properly. they are disabled at least in 0.9.58. Add the following to `/etc/firejail/inkscape.local`:
 
 ```
