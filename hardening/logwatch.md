@@ -38,3 +38,5 @@ else
     exit
 fi
 ```
+
+Make it executable: `chmod 744 /home/USERNAME/cron/fetchmail`.
