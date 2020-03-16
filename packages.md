@@ -19,8 +19,19 @@ sudo apt-get install vulkan-tools mesa-vulkan-drivers
 ```
 ## Security
 ```shell
-sudo apt-get install openvpn network-manager-openvpn openconnect clamav chkrootkit apparmor apparmor-profiles-extra apparmor-utils firejail firetools ldnsutils dnscrypt-proxy nautilus-wipe wipe usbguard usbguard-applet-qt keepassxc logwatch
+sudo apt-get install openvpn network-manager-openvpn openconnect chkrootkit apparmor apparmor-profiles-extra apparmor-utils firejail firetools ldnsutils dnscrypt-proxy nautilus-wipe wipe usbguard usbguard-applet-qt keepassxc logwatch
 ```
+
+If on Debian, `rng-tools`, has different versions (offical vs unofficial) in deb repos, the official version is called `rng-tools5`, install it:
+```shell
+sudo apt-get install rng-tools5
+```
+
+On other distros, you probably just need:
+```shell
+sudo apt-get install rng-tools
+```
+
 If on GNOME, also:
 ```shell
 sudo apt-get install network-manager-openvpn-gnome network-manager-openconnect-gnome
@@ -57,12 +68,16 @@ sudo apt-get install hunspell-en-gb hyphen-en-gb firefox-esr-l10n-en-gb libreoff
 
 ## Package Managers/Build Tools
 ```shell
-sudo apt-get install build-essential gcc g++ make automake libtool aptitude snapd
+sudo apt-get install build-essential gcc g++ make automake libtool aptitude
 ```
 
 ## Programming/Dev Tools
 ```shell
 sudo apt-get install python3 python3-flake8 flake8 python3-pydocstyle pydocstyle python3-jedi git filezilla openssh-client smbclient cifs-utils whois traceroute dnsutils
+```
+JS:
+```shell
+sudo apt-get install nodejs yarnpkg npm
 ```
 
 ## Phone Access
