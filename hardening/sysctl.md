@@ -7,7 +7,7 @@ Edit the appropriate file to include the following:
 ###
 
 # Restart after X seconds in case of kernel panic
-kernel.panic = 300
+kernel.panic = 90
 
 # Enable ExecShield protection
 kernel.randomize_va_space = 2
@@ -24,6 +24,10 @@ kernel.dmesg_restrict = 1
 # Restrict ptrace scope
 # 1=only parent process can be debugged
 kernel.yama.ptrace_scope = 1
+
+# Protect links on the filesystem
+fs.protected_hardlinks = 1
+fs.protected_symlinks = 1
 
 ###
 ### Deprecated/Not-in-use keys for security
@@ -43,15 +47,38 @@ kernel.yama.ptrace_scope = 1
 # Do less swapping
 vm.swappiness = 3
 
-# Keep at least 128MB of free RAM space available
-vm.min_free_kbytes = 131072
+# Consensus: 10% for 1GB = 100MB, for 16GB 500MB is sane
+# Once you set dirty_ratio, a 1:2 ratio between
+# dirty_ratio : dirty_background_ratio is reasonable
+# Note that higher ratio values may increase performance
+# but it also increases the risk of data loss
+vm.dirty_ratio = 6
+vm.dirty_background_ratio = 3
+
+# Rule for minimum free KB of RAM: (installed_mem / num_of_cores) * 0.06
+vm.min_free_kbytes = 251658
+
+# On Debian 10, the default = 100
+# Decreased values might increase performance
+# NEVER EVER set it to 0
+vm.vfs_cache_pressure = 50
+
 
 ###
 ### GENERAL NETWORK SECURITY OPTIONS ###
 ###
 
-# Keep BPF JIT compiler disabled
-net.core.bpf_jit_enable = 0
+# Do not allow unprivileged users to run code in the kernel through BPF
+kernel.unprivileged_bpf_disabled = 1
+
+# Previously, it was recommended to disable the BPF JIT compiler
+# Some Spectre variants make use BPF interpreter
+# Thus, in newer kernels, BPF JIT compiler is always ON
+# if you set it to ON, also use hardening
+# bpf_jit_harden = 1 means harden the unprivileged code
+# Full hardening (value=2) might cripple some tracing/debugging functions
+net.core.bpf_jit_enable = 1
+net.core.bpf_jit_harden = 1
 
 #Prevent SYN attack, enable SYNcookies (they will kick-in when the max_syn_backlog reached)
 net.ipv4.tcp_syncookies = 1
@@ -121,6 +148,11 @@ net.ipv4.icmp_ratemask = 88089
 # Enable a fix for RFC1337 - time-wait assassination hazards in TCP
 net.ipv4.tcp_rfc1337 = 1
 
+# Disable logging martian packages
+# Otherwise it might cause DOS
+net.ipv4.conf.default.log_martians = 0
+net.ipv4.conf.all.log_martians = 0
+
 ###
 ### TUNING NETWORK PERFORMANCE ###
 ###
@@ -146,6 +178,19 @@ sudo systemctl mask apport.service
 ```
 To be double sure, also change the `enabled` value to `0` in `/etc/default/apport`.
 
-Use `sudo sysctl --system` to apply settings. **Important:** Check and make sure if the new config sticks after reboot (`sudo sysctl --all`).
+Use `sudo sysctl --system` to apply settings, and then restart. **Important:** Check and make sure if the new config sticks after reboot (`sudo sysctl --all`).
+
+**Note**: If the `laptop-mode-tools` is installed, it overrides `vm.dirty_ratio` and `vm.dirty_background_ratio`, so you need to edit the following lines in `/etc/laptop-mode/laptop-mode.conf`:
+```
+# Dirty synchronous ratio.  At this percentage of dirty pages the process
+LM_DIRTY_RATIO=<value_1>
+NOLM_DIRTY_RATIO=<value_1>
+
+# Allowed dirty background ratio, in percent.  Once DIRTY_RATIO has been
+# of dirty memory to dirty_background_ratio.  Set this nice and low, so once
+LM_DIRTY_BACKGROUND_RATIO=<value_2>
+NOLM_DIRTY_BACKGROUND_RATIO=<value_2>
+
+```
 
 **Note**: `kernel.exec-shield` and `kernel.maps_protect` keys are extremely important. However, `kernel.maps_protect` became non-optional in kernel 2.6.27 and `kernel.exec-shield` exists in RedHat/CentOS, currently not in Debain 9 at least. But you can still do `kernel.randomize_va_space = 2` for Debian/Ubuntu. Do not change `vm.mmap_min_addr` without extreme care as it has security implications, as long as you are using a fairly modern kernel (includes Debian 9, Ubuntu 16.04 and newer) the default should be fine. Also, `fs.file-max` should be fine with the defaults.
