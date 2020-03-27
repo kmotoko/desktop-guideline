@@ -95,7 +95,8 @@ Useful plugins from APM:
 editorconfig autocomplete-python linter linter-flake8 linter-pydocstyle language-solidity
 ```
 
-Increase the `linter` checking interval to a higher value, e.g. `1000ms`
++ Increase the `linter` checking interval to a higher value, e.g. `1000ms`.
++ `Editorconfig` conflicts with the `whitespace` core plugin, therefore disable the latter.
 
 ## Virtualbox
 Get it from the official Virtualbox website.

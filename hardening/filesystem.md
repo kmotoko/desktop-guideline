@@ -74,11 +74,3 @@ DIR_MODE=0750
 ```
 
 + In addition to `adduser` command, there is an older (and discouraged) one, `useradd`. Change the `UMASK` value there to prevent accidental bypasses. In `/etc/login.defs`, change `UMASK` to: `UMASK		027` which means a permission of `750`.
-
-## Filesystem Check
-+ To force `fsck` to check the filesystem during boot, use `tune2fs`.
-Check the current values:
-`sudo tune2fs -l /dev/sdX`
-+ Then reconfigure the maximum mount count. If the mount count is 1, it will check during every boot. Do:
-`sudo tune2fs -c 2 /dev/sdX`
-+ Check `/etc/fstab` parameters. The `<pass>` value should be non-zero (1 or 2). 1 is checked first then it checks 2.
