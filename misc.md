@@ -84,6 +84,12 @@ sudo systemctl restart laptop-mode.service
 ```
 + Disconnect/reconnect the USB mouse.
 
+## Mouse Wheel Speed in Gnome Wayland
+Under GNOME Wayland, there is no way to set mouse wheel scroll speed, and the default is just too slow. You can change it at least for Firefox, by adding the following to `user.js`:
+```javascript
+user_pref("mousewheel.min_line_scroll_amount", 35);
+```
+
 ## Atom Editor
 From the Atom Package Manager, install:
 ```
