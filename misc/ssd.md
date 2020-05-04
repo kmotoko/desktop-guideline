@@ -26,4 +26,4 @@ It should output something like:
 ```
 **Note:** For NVMe's, the scheduler should be `none`.
 
-+ TRIM/Discard: If the SSD is high quality and you have enough over-provisioning space, prefer not enabling it especially if you have LUKS volume.
++ TRIM/Discard: If the SSD is high quality and you have enough over-provisioning space, prefer not enabling it especially if you have LUKS volume as it has security implications.
