@@ -1,7 +1,7 @@
 Change the kernel parameters at runtime. **Note:** From version 207 and 21x, systemd only applies settings from `/etc/sysctl.d/*.conf`. If you had customized `/etc/sysctl.conf`, you need to rename it as `/etc/sysctl.d/99-sysctl.conf`. If you had e.g. `/etc/sysctl.d/foo`, you need to rename it to `/etc/sysctl.d/foo.conf`.
 Edit the appropriate file to include the following:
 
-```
+```toml
 ###
 ### GENERAL SYSTEM SECURITY OPTIONS ###
 ###
@@ -52,16 +52,16 @@ vm.swappiness = 3
 # dirty_ratio : dirty_background_ratio is reasonable
 # Note that higher ratio values may increase performance
 # but it also increases the risk of data loss
-vm.dirty_ratio = 6
-vm.dirty_background_ratio = 3
+vm.dirty_ratio = 4
+vm.dirty_background_ratio = 2
 
 # Rule for minimum free KB of RAM: (installed_mem / num_of_cores) * 0.06
 vm.min_free_kbytes = 251658
 
 # On Debian 10, the default = 100
-# Decreased values might increase performance
+# Decreased values might increase responsiveness
 # NEVER EVER set it to 0
-vm.vfs_cache_pressure = 50
+vm.vfs_cache_pressure = 80
 
 
 ###
@@ -127,6 +127,10 @@ net.ipv4.conf.all.arp_ignore = 1
 # Mode '2': ignore the source address in the IP packet and try to select local address that we prefer for talks with the target host
 net.ipv4.conf.all.arp_announce = 2
 
+# Turn on the tcp_timestamps, accurate timestamp make TCP congestion control algorithms work better
+# Do not turn it off, it has security implications
+net.ipv4.tcp_timestamps = 1
+
 # Don't ignore directed pings
 # Useful for monitoring tools etc.
 # Might want to limit requests/s in iptables
@@ -157,11 +161,13 @@ net.ipv4.conf.all.log_martians = 0
 ### TUNING NETWORK PERFORMANCE ###
 ###
 
-# Limit the maximum memory used to reassemble IP fragments (CVE-2018-5391)
-net.ipv4.ipfrag_low_thresh = 196608
-net.ipv6.ip6frag_low_thresh = 196608
-net.ipv4.ipfrag_high_thresh = 262144
-net.ipv6.ip6frag_high_thresh = 262144
+# Avoid falling back to slow start after a connection goes idle
+# keeps our cwnd large with the keep alive connections (kernel > 3.6)
+# When enabled, kills persistent single connection performance
+net.ipv4.tcp_slow_start_after_idle = 0
+
+# Enable MTU probing
+net.ipv4.tcp_mtu_probing = 1
 
 # This will ensure that immediately subsequent connections use the new values
 # ALWAYS COMES LAST
@@ -180,7 +186,7 @@ To be double sure, also change the `enabled` value to `0` in `/etc/default/appor
 
 Use `sudo sysctl --system` to apply settings, and then restart. **Important:** Check and make sure if the new config sticks after reboot (`sudo sysctl --all`).
 
-**Note**: If the `laptop-mode-tools` is installed, it overrides `vm.dirty_ratio` and `vm.dirty_background_ratio`, so you need to edit the following lines in `/etc/laptop-mode/laptop-mode.conf`:
+**Note**: If the `laptop-mode-tools` is installed, it overrides `vm.dirty_ratio` and `vm.dirty_background_ratio`. This **does not** happen with `tlp`. Thus, if `laptop-mode-tools` is being used, edit the following lines in `/etc/laptop-mode/laptop-mode.conf`:
 ```
 # Dirty synchronous ratio.  At this percentage of dirty pages the process
 LM_DIRTY_RATIO=<value_1>
