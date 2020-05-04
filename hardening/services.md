@@ -7,25 +7,28 @@ sudo systemctl list-unit-files
 ```
 
 + To disable a service/socket, you can:
-```
-sudo systemctl stop avahi-daemon.service
-sudo systemctl stop avahi-daemon.socket
-sudo systemctl disable avahi-daemon.service
-sudo systemctl disable avahi-daemon.socket
-sudo systemctl mask avahi-daemon.service
-sudo systemctl mask avahi-daemon.socket
+```shell
+sudo systemctl stop avahi-daemon
+sudo systemctl disable avahi-daemon
+sudo systemctl stop cups
+sudo systemctl disable cups
+sudo systemctl stop cups-browsed
+sudo systemctl disable cups-browsed
 ```
 Disable the following in addition to `avahi-daemon`:
 ```
-brltty.service
-pppd-dns.service
-ModemManager.service
-minissdpd.service
-cups-browsed.service
-cups.service
-cups.socket
+brltty
+pppd-dns
+ModemManager
+minissdpd
 ```
 **Important:** Also disable the socket if it exists for a service.
+
++ Keep Tor service disabled by default:
+```shell
+sudo systemctl stop tor.service
+sudo systemctl disable tor.service
+```
 
 + **Teamviewer:** It self-enables after every upgrade. To prevent this behavior create `/etc/apt/apt.conf.d/88teamviewer` and add:
 ```
