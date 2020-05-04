@@ -1,69 +1,85 @@
-## Firmware/Hardware
+## Firmware
 ```shell
-sudo apt-get install firmware-linux-free firmware-misc-nonfree laptop-mode-tools lshw pciutils hardinfo psensor
+sudo apt-get install firmware-linux-free firmware-misc-nonfree intel-microcode fwupd mesa-va-drivers vainfo vulkan-tools mesa-vulkan-drivers mesa-utils
+```
+Depending on the Intel chipset generation, you also **need to install** either `i965-va-driver`(older) or  `intel-media-va-driver`(newer) for VAAPI support. `intel-media-va-driver` might **need to be enabled manually**, see the package docs. Installing both does not do any harm.
+
+## Desktop Environment
+### Debian Desktop Base
+```shell
+sudo apt-get install xorg xserver-xorg-input-all xserver-xorg-video-all desktop-base xdg-utils anacron iw sudo
+```
+eject libnss-mdns libu2f-udev alsa-utils
+
+**Note:** These give you minimal base for the desktop environment installation. Packages are selected packages from `task-desktop` metapackage:
+
+### GNOME 3
++ Base:
+```shell
+sudo apt-get install gnome-core xdg-user-dirs-gtk libproxy1-plugin-networkmanager network-manager-gnome seahorse evolution evolution-plugins file-roller gedit-plugins gnome-calendar gnome-contacts gnome-clocks gnome-todo gnome-tweaks nautilus-sendto totem-plugins libreoffice-calc libreoffice-impress libreoffice-writer libreoffice-gnome firefox-esr
+```
+**Note:** These are the selected packages from `gnome` metapackage. Essential GNOME packages are included in `gnome-core` metapackage.
+
++ Recommended:
+```shell
+sudo apt-get install dconf-editor cheese gnome-power-manager gnome-screenshot gnome-sound-recorder gnome-color-manager gnome-shell-extension-disconnect-wifi gnome-shell-extension-suspend-button gnome-shell-extension-dashtodock gstreamer1.0-vaapi gstreamer1.0-libav gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly ffmpeg zip unzip unrar-free
 ```
 
-Microcode for Intel processors:
++ Suggested:
 ```shell
-sudo apt-get install intel-microcode
+sudo apt-get install mpv inkscape gimp chromium chromium-sandbox telegram-desktop
 ```
 
-VAAPI driver for i965 chipsets:
++ Extras: Tools **[Won't Install by Default]**:
 ```shell
-sudo apt-get install mesa-va-drivers i965-va-driver intel-media-va-driver vainfo
+sudo apt-get install gnome-photos transmission-gtk simple-scan
 ```
 
-Vulkan support:
++ Extras: Network Discovery/UPnP **[Won't Install by Default]**:
 ```shell
-sudo apt-get install vulkan-tools mesa-vulkan-drivers
+sudo apt-get install avahi-daemon cups-pk-helper rygel-playbin rygel-tracker
 ```
+
+## Laptop
+```shell
+sudo apt-get install tlp tlp-rdw
+```
+**Note:** An alternative would be `laptop-mode-tools`, but TLP is newer and has some advantages.
+
 ## Security
 ```shell
-sudo apt-get install openvpn network-manager-openvpn openconnect chkrootkit apparmor apparmor-profiles-extra apparmor-utils firejail firetools ldnsutils dnscrypt-proxy nautilus-wipe wipe usbguard usbguard-applet-qt keepassxc logwatch
+sudo apt-get install rng-tools5 openvpn network-manager-openvpn network-manager-openvpn-gnome chkrootkit apparmor apparmor-utils firejail firejail-profiles dnscrypt-proxy usbguard usbguard-applet-qt keepassxc logwatch
 ```
 
-If on Debian, `rng-tools`, has different versions (offical vs unofficial) in deb repos, the official version is called `rng-tools5`, install it:
+**Note:** If on Debian, `rng-tools`, has different versions (offical vs unofficial) in deb repos, the official version is called `rng-tools5`. On other distros, you probably just need `rng-tools`.
+**Note:** To install `Tor Browser`, check the Debian website [https://wiki.debian.org/TorBrowser](https://wiki.debian.org/TorBrowser).
+
+## Sys Admin Tools
++ Network:
 ```shell
-sudo apt-get install rng-tools5
+sudo apt-get install openssh-client ssh-tools filezilla ldnsutils whois traceroute dnsutils nmap net-tools netcat-openbsd wireshark-gtk
 ```
-
-On other distros, you probably just need:
++ Other:
 ```shell
-sudo apt-get install rng-tools
+sudo apt-get install efibootmgr efitools dmidecode lshw pciutils hardinfo psensor smartmontools rsync clonezilla parted e2fsprogs htop
 ```
 
-If on GNOME, also:
+## Filesystem Support
 ```shell
-sudo apt-get install network-manager-openvpn-gnome network-manager-openconnect-gnome
+sudo apt-get install exfat-utils exfat-fuse dosfstools hfsplus hfsutils
 ```
 
-To install `Tor Browser`, check the Debian website [https://wiki.debian.org/TorBrowser](https://wiki.debian.org/TorBrowser).
-
-## Filesystem/Backup
+## Fonts & Typesetting
 ```shell
-sudo apt-get install exfat-utils exfat-fuse dosfstools parted rsync smartmontools hfsplus hfsutils e2fsprogs
+sudo apt-get install fontconfig texlive-base texlive-bibtex-extra texlive-fonts-recommended texlive-science texlive-latex-base texlive-latex-recommended texlive-lang-english lmodern fonts-lmodern cm-super fonts-urw-base35 fonts-texgyre fonts-freefont-otf fonts-freefont-ttf fonts-dejavu fonts-roboto fonts-ibm-plex fonts-liberation fonts-liberation2 fonts-open-sans biber bibutils
 ```
 
-## Typesetting
-```shell
-sudo apt-get install fonts-liberation fonts-liberation2 texlive-base texlive-bibtex-extra texlive-fonts-recommended texlive-fonts-extra lmodern fonts-lmodern texlive-science texlive-latex-base texlive-latex-extra texlive-latex-recommended texlive-lang-english texlive-lang-french texlive-lang-german texlive-lang-greek cm-super texstudio biber bibutils
-```
-
-Note that `fonts-liberation` and `fonts-liberation2` package solve some of the font rendering problems in `chromium`.
-
-## Media/Misc/Daily
-```shell
-sudo apt-get install vlc gstreamer1.0-vaapi gstreamer1.0-libav gstreamer1.0-plugins-ugly gstreamer1.0-plugins-good ffmpeg unrar-free zip unzip qpdfview impressive pdf-presenter-console inkscape gimp chromium chromium-sandbox dconf-editor telegram-desktop
-```
-
-## GNOME Shell
-```shell
-sudo apt-get install gnome-shell-extension-disconnect-wifi gnome-shell-extension-suspend-button numix-gtk-theme
-```
+**Note:** `latexila` might be called `GNOME Latex` in future releases.
+**Note:** `fonts-liberation` and `fonts-liberation2` package solve some of the font rendering problems in `chromium`.
 
 ## Localization
 ```shell
-sudo apt-get install hunspell-en-gb hyphen-en-gb firefox-esr-l10n-en-gb libreoffice-l10n-en-gb chromium-l10n
+sudo apt-get install hunspell-en-us hunspell-en-gb hunspell-tr hyphen-en-us hyphen-en-gb mythes-en-us firefox-esr-l10n-all libreoffice-l10n-en-gb chromium-l10n
 ```
 
 ## Package Managers/Build Tools
@@ -73,11 +89,7 @@ sudo apt-get install build-essential gcc g++ make automake libtool aptitude
 
 ## Programming/Dev Tools
 ```shell
-sudo apt-get install python3 python3-flake8 flake8 python3-pydocstyle pydocstyle python3-jedi git filezilla openssh-client smbclient cifs-utils whois traceroute dnsutils
-```
-JS:
-```shell
-sudo apt-get install nodejs yarnpkg npm
+sudo apt-get install nano geany geany-plugins git python3 python3-flake8 flake8 python3-pydocstyle pydocstyle python3-jedi nodejs yarnpkg npm
 ```
 
 ## Phone Access
@@ -85,21 +97,18 @@ sudo apt-get install nodejs yarnpkg npm
 sudo apt-get install adb fastboot jmtpfs mtp-tools libimobiledevice-utils ideviceinstaller ifuse
 ```
 
-## Cryptocurrency
+## Other
+### Cryptocurrency
 Probably not in repos: `Electrum Bitcoin Wallet` and `MyCrypto Ethereum Wallet`. Get them from their official websites. If getting the appimages, place them under `/usr/local/bin/`.
 
-## Atom
-Get it from the official atom debian repos.
+### Atom
++ Get it from the official atom debian repos.
 Useful plugins from APM:
 ```
 editorconfig autocomplete-python linter linter-flake8 linter-pydocstyle language-solidity
 ```
-
 + Increase the `linter` checking interval to a higher value, e.g. `1000ms`.
 + `Editorconfig` conflicts with the `whitespace` core plugin, therefore disable the latter.
 
-## Virtualbox
+### Virtualbox
 Get it from the official Virtualbox website.
-
-## Wire
-Get it from the official Wire website.
