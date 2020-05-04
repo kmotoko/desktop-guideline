@@ -10,7 +10,7 @@ There are important partition mount options:
 + There is no practical way to make the whole `/var` `noexec` since some programs place executable scripts there. Instead, separate partitions for `/var/tmp` and `/var/log`.
 + Some resources suggest making `/usr` read-only. IMHO, this does not add much, as it is required to have root privileges to write there. And if someone has compromised root, he/she can do anything already. The real benefit of mounting it read-only would be in cases where you run unsafe code as root, but again you should already never do that.
 + `/home` can be considered for `noexec`, but not that convenient for dev PCs. However, you can use `nosuid` and `nodev`.
-+ `/dev/shm` or `/run/shm` are virtual filesystems that are used for shared memory. They are world-writable. Depending on the distro, it is one of them. For ecample, in Debian 9, `/run/shm` is a symbolic link to `/dev/shm`, therefore `/dev/shm` is the one that needs a change in mount options. Before doing anything, check which one exists/is symbolic link, and also check the output of `mount | grep -i shm` to see which one is actually mounted.
++ `/dev/shm` or `/run/shm` are virtual filesystems that are used for shared memory. They are world-writable. Depending on the distro, it is one of them. For example, in Debian 9, `/run/shm` is a symbolic link to `/dev/shm`, therefore `/dev/shm` is the one that needs a change in mount options. Before doing anything, check which one exists/is symbolic link, and also check the output of `mount | grep -i shm` to see which one is actually mounted.
 
 That was it for the basic understanding. Now is the time for the actual config.
 
@@ -50,7 +50,7 @@ You could also mount it read-only by `none /run/shm tmpfs defaults,ro 0 0`, but 
 + Reboot and check mount flags with: `mount`
 
 ## Disable Unused Filesystems
-Create `/etc/modprobe.d/dev-sec.conf` file with the following contents:
+Create `/etc/modprobe.d/99dev-sec.conf` file with the following contents:
 ```
 install cramfs /bin/true
 install freevxfs /bin/true
