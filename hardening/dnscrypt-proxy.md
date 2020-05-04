@@ -2,7 +2,8 @@
 
 + Edit `server_names` in `/etc/dnscrypt-proxy/dnscrypt-proxy.toml`:
 ```
-server_names = ['dnscrypt.eu-dk', 'dnscrypt.eu-dk-ipv6']
+server_names = ['quad9-dnscrypt-ip4-filter-pri', 'quad9-dnscrypt-ip4-filter-alt']
+# server_names = ['dnscrypt.eu-dk', 'dnscrypt.eu-dk-ipv6']
 require_dnssec = true
 require_nolog = true
 dnscrypt_servers = true
