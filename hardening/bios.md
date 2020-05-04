@@ -1,5 +1,5 @@
 ## BIOS/UEFI
-## General Settings
+### General Settings
 + Password-protect the BIOS setup screen
 + Check if there is a separate option to lock down the boot order. If so, make sure that the default boot order first tries the OS bootloader, not the external ports, and then lock the settings.
 + Enable Secure Boot.
@@ -12,3 +12,8 @@
 + Check if it is enabled by:
 `sudo dmesg | grep "Execute Disable"`
 or change with other possible names mentioned above, instead of "Execute Disable".
+
+### Secure Boot
++ If you don't want to install your own keys, but unsure if the computer has the Microsoft keys/certs in the DB, you can check the installed keys in BIOS via `efi-readvar` command of the `efitools` package.
++ If there is, enable the Secure Boot and reboot.
++ Check with `bootctl status`.
