@@ -15,8 +15,8 @@ RestoreControllerDeviceState=false
 
 + Stop the services to make sure nothing is blocked before the policy generation:
 ```shell
-sudo systemctl start usbguard.service
-sudo systemctl start usbguard-dbus.service
+sudo systemctl stop usbguard.service
+sudo systemctl stop usbguard-dbus.service
 ```
 
 + Take out all the **external** usb devices, turn on all the integrated devices such as wifi, bluetooth, microphone and webcam; and generate a policy of usb devices and controllers: `sudo usbguard generate-policy`. Add the output to `/etc/usbguard/rules.conf`. Make sure that all rules start with `allow`. This ensures that the internally attached devices, e.g. integrated webcam, are allowed in case they are loaded after the daemon starts.
