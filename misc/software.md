@@ -3,3 +3,6 @@ By default use `biber` for bibliography tool. Default in TexStudio is `bibtex`, 
 
 ## JabRef
 Change encoding style to `UTF-8` in options.
+
+## System-Wide Default Editor
+Change it to `nano` via `sudo update-alternatives --config editor`.
