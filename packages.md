@@ -89,13 +89,19 @@ sudo apt-get install build-essential gcc g++ make automake libtool aptitude
 
 ## Programming/Dev Tools
 ```shell
-sudo apt-get install nano geany geany-plugins git python3 python3-flake8 flake8 python3-pydocstyle pydocstyle python3-jedi nodejs yarnpkg npm
+sudo apt-get install nano git python3 python3-flake8 flake8 python3-pydocstyle pydocstyle python3-jedi nodejs yarnpkg npm
 ```
 
 ## Phone Access
 ```shell
 sudo apt-get install adb fastboot jmtpfs mtp-tools libimobiledevice-utils ideviceinstaller ifuse
 ```
+
+## Virtualization
+```sheel
+sudo apt-get install qemu-system-x86 qemu-kvm libvirt-clients libvirt-daemon-system virtinst virt-viewer virt-manager bridge-utils
+```
+**Note:** On Debian 10, `qemu` package is dummy and split into architecture specific packages. `qemu-system-x86` covers both i386 and x86_64.
 
 ## Other
 ### Cryptocurrency
@@ -109,6 +115,3 @@ editorconfig autocomplete-python linter linter-flake8 linter-pydocstyle language
 ```
 + Increase the `linter` checking interval to a higher value, e.g. `1000ms`.
 + `Editorconfig` conflicts with the `whitespace` core plugin, therefore disable the latter.
-
-### Virtualbox
-Get it from the official Virtualbox website.
