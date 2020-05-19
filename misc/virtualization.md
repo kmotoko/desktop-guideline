@@ -2,3 +2,4 @@
 + First enable `Virtualization Support` in BIOS. It may go by names `VT-x` (intel) or `VT-d` (amd).
 + Check hardware support: `lscpu | grep -i virt`
 + Check if the `kvm` (Kernel Virtual Machine for faster processing) kernel module is loaded: `lsmod | grep -i kvm`
++ If using QEMU and `libvirt`, add your user to `libvirt` group: `sudo adduser <youruser> libvirt`
