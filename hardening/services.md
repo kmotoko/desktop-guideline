@@ -33,6 +33,6 @@ sudo systemctl disable tor.service
 + **Teamviewer:** It self-enables after every upgrade. To prevent this behavior create `/etc/apt/apt.conf.d/88teamviewer` and add:
 ```
 # Prevent Teamviewer self-activation after every upgrade
-DPkg::Post-Invoke {"systemctl disable teamviewerd.service; systemctl stop teamviewerd.service";};
+DPkg::Post-Invoke {"systemctl disable teamviewerd.service; systemctl stop teamviewerd.service; echo 'Teamviewer disabled and stopped after dpkg-run' | mail -s 'Teamviewer self-activation' root@localhost";};
 
 ```
