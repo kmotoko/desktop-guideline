@@ -17,3 +17,12 @@ or change with other possible names mentioned above, instead of "Execute Disable
 + If you don't want to install your own keys, but unsure if the computer has the Microsoft keys/certs in the DB, you can check the installed keys in BIOS via `efi-readvar` command of the `efitools` package.
 + If there is, enable the Secure Boot and reboot.
 + Check with `bootctl status`.
+
+### BIOS Update
+#### Thinkpad
+On Thinkpads, `geteltorito` tool from `genisoimage` (in Debian/Ubuntu) works well to extract the boot image from the Lenovo-provided iso image. One catch is that in order to be able to boot from the USB, you need to temporarily disable the `Boot Order Lock` and `Secure Boot` options, and  temporarily enable the `CSM Support` option while in the `UEFI Only Mode`. Then it is as easy as:
+```shell
+geteltorito -o <image>.img <image>.iso
+sudo umount <device_mountpoint>
+sudo dd if=<image>.img of=<device> && sync
+```
