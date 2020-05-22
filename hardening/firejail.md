@@ -22,7 +22,7 @@ sudo ln -s /usr/bin/firejail /usr/local/bin/atom
 cp /usr/share/applications/atom.desktop ~/.local/share/applications/
 ```
 Then edit `EXEC` line in `~/.local/share/applications/atom.desktop` and remove the absolute path.
-Also atom git/github integration requires a bit of tweaking. Also, the trash folder is masked by default, unmask it. Put the following into `/etc/firejail/atom.local`:
+Also, atom git/github integration requires a bit of tweaking and the trash folder is masked by default, unmask it. Put the following into `/etc/firejail/atom.local`:
 
 ```
 # Bring the trash func back
@@ -197,6 +197,7 @@ trap cleanup EXIT
 # Variables
 TIMESTAMP=$(date '+%Y%m%d%H%M%S')
 OUTPUT="/tmp/firejail_autorun_$TIMESTAMP"
+DESKTOPFILE="NONEXISTENT"
 
 # Cleanup fnc
 cleanup() {
@@ -209,7 +210,7 @@ cleanup() {
 # Sandbox newly installed apps
 if [ -x /usr/bin/firecfg ]
 then
-    firecfg > $OUTPUT
+    /usr/bin/firecfg > $OUTPUT
 fi
 
 # Blacklist the following software
@@ -239,6 +240,28 @@ then
     ln -sv /usr/bin/firejail /usr/local/bin/atom >> $OUTPUT
 fi
 
+# Modify chromium flag for less number of processes
+lslogins -u -o USER --raw --noheadings |
+while read -r line
+do
+    if [ "$line" != "root" ]
+    then
+        DESKTOPFILE="/home/$line/.local/share/applications/chromium.desktop"
+        if [ -w $DESKTOPFILE ]
+        then
+            sed -i 's/Exec=chromium %U/Exec=chromium --process-per-site %U/g' $DESKTOPFILE
+            chown $line:$line $DESKTOPFILE
+            chmod 644 $DESKTOPFILE
+            echo >> $OUTPUT
+            echo "Chromium Desktop File modified for user $line" >> $OUTPUT
+        else
+            echo >> $OUTPUT
+            echo "Chromium Desktop File NOT FOUND / NOT WRITABLE for user $line" >> $OUTPUT
+        fi
+    fi
+done
+
+
 if [ -r $OUTPUT ]
 then
     cat $OUTPUT | mail -s "Firejail DPKG Post-Invoke" root@localhost
@@ -247,3 +270,5 @@ fi
 ```
 
 + Make it executable `sudo chmod 754 /usr/local/sbin/firejail_autorun.sh`
+
+@TODO: Fix atom.desktop within the script
