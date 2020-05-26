@@ -61,7 +61,7 @@ sudo apt-get install openssh-client ssh-tools filezilla ldnsutils whois tracerou
 ```
 + Other:
 ```shell
-sudo apt-get install genisoimage efibootmgr efitools dmidecode lshw pciutils hardinfo psensor smartmontools rsync clonezilla parted e2fsprogs htop
+sudo apt-get install genisoimage efibootmgr efitools dmidecode lnav lshw pciutils hardinfo lm-sensors psensor smartmontools rsync clonezilla parted e2fsprogs htop
 ```
 **Note:** `genisoimage` contains `geteltorito`, a tool to extract the boot image from an iso (BIOS updating context).
 
