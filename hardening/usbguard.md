@@ -32,6 +32,6 @@ sudo systemctl enable usbguard-dbus.service
 + `usbguard-applet-qt` spams the `syslog` if a particular user does not have an IPC connection permission(e.g. `usbguard-daemon: IPC connection denied`). `usbguard-applet-qt` does not run as root or as a system service, and has its autostart file in `/etc/xdg/autostart/usbguard-applet-qt.desktop`. To disable the autostart for a user without an IPC connection permission, copy it to `/home/<USERNAME>/.config/autostart/` with the same filename and add `Hidden=true` to its content:
 ```shell
 cp /etc/xdg/autostart/usbguard-applet-qt.desktop $HOME/.config/autostart/
-echo > $HOME/.config/autostart/usbguard-applet-qt.desktop
-echo "Hidden=true" > $HOME/.config/autostart/usbguard-applet-qt.desktop
+echo -e "\nHidden=true\n" >> $HOME/.config/autostart/usbguard-applet-qt.desktop
 ```
+The `-e` flag allows the interpretation of backslash escapes.
